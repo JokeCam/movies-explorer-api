@@ -24,10 +24,8 @@ const { PORT = 3000 } = process.env;
 const { NODE_ENV = 'development' } = process.env;
 const { JWT_SECRET = 'some-secret-key' } = process.env;
 
-module.exports = {
-  JWT_SECRET,
-  NODE_ENV,
-};
+exports.NODE_ENV = NODE_ENV;
+exports.JWT_SECRET = JWT_SECRET;
 
 const NotFoundError = require('./errors/not-found-err');
 

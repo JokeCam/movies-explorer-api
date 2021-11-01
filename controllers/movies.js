@@ -56,8 +56,7 @@ module.exports.deleteMovie = (req, res, next) => {
   Movie.findOne({ _id: req.params.movieId })
     .orFail(new NotFoundError('Фильм не найден.'))
     .then((movie) => {
-      // eslint-disable-next-line eqeqeq
-      if (movie.owner == req.user._id) {
+      if (movie.owner === req.user._id) {
         Movie.findByIdAndRemove(req.params.movieId)
           .orFail(new Error('NotFound'))
           .then(res.send({ data: movie }))

@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 
 const User = require('../models/user');
 
+const envData = require('../app');
+
 const CastError = require('../errors/cast-err');
 const NotFoundError = require('../errors/not-found-err');
 const ValidationError = require('../errors/authorization-err');
@@ -83,8 +85,7 @@ module.exports.login = (req, res, next) => {
       }
       const token = jwt.sign(
         { _id: user._id },
-        // eslint-disable-next-line global-require
-        require('../app').NODE_ENV === 'production' ? require('../app').JWT_SECRET : 'some-secret-key',
+        envData.NODE_ENV === 'production' ? envData.JWT_SECRET : 'some-secret-key',
         { expiresIn: '7d' },
       );
       res.cookie('jwt', token, {
