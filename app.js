@@ -53,12 +53,12 @@ app.get('/crash-test', () => {
 });
 
 app.post('/signout', userController.logout);
-app.use('/', require('./routes/authorization'));
+app.use(require('./routes/authorization'));
 
 app.use(auth);
 
-app.use('/users', require('./routes/users'));
-app.use('/movies', require('./routes/movies'));
+app.use(require('./routes/users'));
+app.use(require('./routes/movies'));
 
 app.use('*', (req, res, next) => {
   next(new NotFoundError('Ресурс не найден'));

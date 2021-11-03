@@ -8,7 +8,7 @@ const envData = require('../app');
 const CastError = require('../errors/cast-err');
 const NotFoundError = require('../errors/not-found-err');
 const ValidationError = require('../errors/authorization-err');
-const MongoError = require('../errors/mongo-err');
+const ConfilctError = require('../errors/mongo-err');
 // const ServerError = require('../errors/server-err');
 
 module.exports.getCurrentUser = (req, res, next) => {
@@ -59,7 +59,7 @@ module.exports.logout = (req, res, next) => {
 
 module.exports.createUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
-    .then((hash) => User.create({ email: req.body.email, password: hash }))
+    .then((hash) => User.create({ email: req.body.email, password: hash, name: req.body.name }))
     .then((user) => {
       const tempUser = user;
       tempUser.password = '';
@@ -68,8 +68,8 @@ module.exports.createUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ValidationError('Переданы некорректные данные при создании пользователя.'));
-      } else if (err.name === 'MongoError' && err.code === 11000) {
-        next(new MongoError('Переданы некорректные данные при создании пользователя.'));
+      } else if (err.code === 11000) {
+        next(new ConfilctError('Переданы некорректные данные при создании пользователя.'));
       } else {
         next(err);
       }

@@ -56,7 +56,7 @@ module.exports.deleteMovie = (req, res, next) => {
   Movie.findOne({ _id: req.params.movieId })
     .orFail(new NotFoundError('Фильм не найден.'))
     .then((movie) => {
-      if (movie.owner === req.user._id) {
+      if (movie.owner.toString() === req.user._id) {
         Movie.findByIdAndRemove(req.params.movieId)
           .orFail(new Error('NotFound'))
           .then(res.send({ data: movie }))
@@ -65,6 +65,8 @@ module.exports.deleteMovie = (req, res, next) => {
               throw new NotFoundError('Фильм не найден.');
             } else if (err.name === 'CastError') {
               throw new CastError('Переданы неверные данные');
+            } else {
+              next(err);
             }
           });
       } else throw new ForbiddenError('Недостаточно прав для удаления фильма');
