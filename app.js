@@ -4,17 +4,12 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
-const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const limiter = require('./middlewares/limiter');
 
 const auth = require('./middlewares/auth');
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-});
 
 const errorHandler = require('./middlewares/error-handler');
 
@@ -23,6 +18,7 @@ const userController = require('./controllers/users');
 const { PORT = 3000 } = process.env;
 const { NODE_ENV = 'development' } = process.env;
 const { JWT_SECRET = 'some-secret-key' } = process.env;
+const { DB_ADRESS = 'mongodb://localhost:27017/moviesdb' } = process.env;
 
 exports.NODE_ENV = NODE_ENV;
 exports.JWT_SECRET = JWT_SECRET;
@@ -35,7 +31,7 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-mongoose.connect('mongodb://localhost:27017/moviedb', {
+mongoose.connect(NODE_ENV === 'production' ? DB_ADRESS : 'mongodb://localhost:27017/moviesdb', {
   useNewUrlParser: true,
 });
 
@@ -57,8 +53,7 @@ app.use(require('./routes/authorization'));
 
 app.use(auth);
 
-app.use(require('./routes/users'));
-app.use(require('./routes/movies'));
+require('./routes/index')(app);
 
 app.use('*', (req, res, next) => {
   next(new NotFoundError('Ресурс не найден'));

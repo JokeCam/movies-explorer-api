@@ -40,6 +40,8 @@ module.exports.updateUser = (req, res, next) => {
         next(new CastError('Переданы некорректные данные при обновлении профиля.'));
       } else if (err.message === 'NotFound') {
         next(new NotFoundError('Пользователь по указанному _id не найден.'));
+      } else if (err.code === 11000) {
+        next(new ConfilctError('Переданы некорректные данные при обновлении профиля.'));
       } else {
         next(err);
       }

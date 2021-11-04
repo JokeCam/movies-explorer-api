@@ -18,17 +18,17 @@ const {
 router.get('/movies/', getMovies);
 router.post('/movies/', celebrate({
   body: Joi.object().keys({
-    country: Joi.string().required().min(2).max(30),
-    director: Joi.string().required().min(2).max(30),
+    country: Joi.string().required(),
+    director: Joi.string().required(),
     duration: Joi.number().required(),
     year: Joi.number().required(),
     description: Joi.string().required(),
     image: Joi.string().required().custom(method),
     trailer: Joi.string().required().custom(method),
     thumbnail: Joi.string().required().custom(method),
-    movieId: Joi.number().required().min(2).max(30),
-    nameRU: Joi.string().required().min(2).max(30),
-    nameEN: Joi.string().required().min(2).max(30),
+    movieId: Joi.number().required(),
+    nameRU: Joi.string().required(),
+    nameEN: Joi.string().required(),
   }),
 }), createMovie);
 router.delete('/movies/:movieId', celebrate({

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const linkValidator = require('../validators/link-validatatior');
+
 const movieSchema = new mongoose.Schema({
   country: {
     type: String,
@@ -23,17 +25,17 @@ const movieSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    validate: /\b(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]/,
+    validate: linkValidator,
     required: true,
   },
   trailer: {
     type: String,
-    validate: /\b(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]/,
+    validate: linkValidator,
     required: true,
   },
   thumbnail: {
     type: String,
-    validate: /\b(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]/,
+    validate: linkValidator,
     required: true,
   },
   owner: {
