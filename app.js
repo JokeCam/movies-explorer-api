@@ -48,7 +48,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post('/signout', userController.logout);
+app.post('/api/signout', userController.logout);
 app.use(require('./routes/authorization'));
 
 app.use(auth);
