@@ -1,10 +1,10 @@
 # movies-explorer-api
 
 ### Ссылка на backend:
-http://movies.stanislav.nomoredomains.xyz
+http://api.movies.stanislav.nomoredomains.work
 
 ### IP backend:
-178.154.199.146
+51.250.22.237
 
 ### Домен backend:
-movies.stanislav.nomoredomains.xyz
+api.movies.stanislav.nomoredomains.work
