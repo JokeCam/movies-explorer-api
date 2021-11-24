@@ -38,7 +38,7 @@ mongoose.connect(NODE_ENV === 'production' ? DB_ADRESS : 'mongodb://localhost:27
 app.use(requestLogger);
 app.use(limiter);
 app.use(cors({
-  origin: '*',
+  origin: 'https://movies.stanislav.nomoredomains.xyz',
   credentials: true,
 }));
 
